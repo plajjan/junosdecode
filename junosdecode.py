@@ -8,7 +8,8 @@
 ## original: http://search.cpan.org/dist/Crypt-Juniper/lib/Crypt/Juniper.pm
 ## requires python 2.7 due to use of dict comprehension
 ##
-## version 1.0
+## version 1.01 - works with python 3
+##   
 ##
 
 import sys
@@ -44,7 +45,7 @@ def _nibble(cref, length):
     nib = cref[0:length]
     rest = cref[length:]
     if len(nib) != length:
-        print "Ran out of characters: hit '%s', expecting %s chars" % (nib, length)
+        print("Ran out of characters: hit '%s', expecting %s chars" % (nib, length))
         sys.exit(1)
     return nib, rest
 
@@ -56,7 +57,7 @@ def _gap(c1, c2):
 def _gap_decode(gaps, dec):
     num = 0
     if len(gaps) != len(dec):
-        print "Nibble and decode size not the same!"
+        print("Nibble and decode size not the same!")
         sys.exit(1)
     for x in range(0, len(gaps)):
         num += gaps[x] * dec[x]
@@ -92,11 +93,11 @@ def main():
         parser.error("wrong number of arguments")
 
     encrypted_string = args[0]
-    print "junos password decrypter"
-    print "python version by matt hite"
-    print "original perl version by kevin brintnall\n"
-    print "encrypted version: %s" % encrypted_string
-    print "decrypted version: %s" % juniper_decrypt(encrypted_string)
+    print("junos password decrypter")
+    print("python version by matt hite")
+    print("original perl version by kevin brintnall\n")
+    print("encrypted version: %s" % encrypted_string)
+    print("decrypted version: %s" % juniper_decrypt(encrypted_string))
 
 if __name__ == "__main__":
     main()
