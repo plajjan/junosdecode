@@ -134,8 +134,7 @@ def juniper_encrypt(plaintext, salt = None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script",
-                          version="1.0")
+    parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-e", "--encrypt", dest="plaintext", help="encrypt plaintext")
     group.add_argument("-d", "--decrypt", dest="secret", help="decrypt secret")
@@ -160,3 +159,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+	
