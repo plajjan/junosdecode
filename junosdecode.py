@@ -12,8 +12,18 @@
 ##   
 ##
 
+#############################################################################
+## added juniper_encrypt and the necessary functions
+## by Minsuk Song <msuk.song@gmail.com>, who also knows
+## very little perl
+##
+from __future__ import print_function
+
 import sys
-from optparse import OptionParser, OptionGroup
+import argparse
+import random
+
+
 
 #################################################################
 ## globals
@@ -81,23 +91,87 @@ def juniper_decrypt(crypt):
         decrypt += _gap_decode(gaps, decode)
     return decrypt
 
+def _reverse(my_list):
+    new_list = list(my_list)
+    new_list.reverse()
+    return new_list
+
+def _gap_encode(pc, prev, encode):
+    _ord = ord(pc)
+
+    crypt = ''
+    gaps = []
+    for mod in _reverse(encode):
+        gaps.insert(0, int(_ord/mod))
+        _ord %= mod
+
+    for gap in gaps:
+        gap += ALPHA_NUM[prev] + 1
+        prev = NUM_ALPHA[gap % len(NUM_ALPHA)]
+        crypt += prev
+
+    return crypt
+
+def _randc(cnt = 0):
+    ret = ""
+    for _ in range(cnt):
+        ret += NUM_ALPHA[random.randrange(len(NUM_ALPHA))]
+    return ret
+
+def juniper_encrypt(plaintext, salt = None):
+    if salt is None:
+        salt = _randc(1)
+    rand = _randc(EXTRA[salt])
+
+    pos = 0
+    prev = salt
+    crypt = MAGIC + salt + rand
+
+    for x in plaintext:
+        encode = ENCODING[pos % len(ENCODING)]
+        crypt += _gap_encode(x, prev, encode)
+        prev = crypt[-1]
+        pos += 1
+
+    return crypt
+
 
 def main():
-    parser = OptionParser(usage="usage: %prog [options] encrypted_string",
-                          version="1.0")
+    parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
+    parser.add_argument('-v','--version', action='version', version='%(prog)s 1.01')
+    parser.add_argument("-r","--result-only", action="store_true", dest="resultOnly", help="Output resulting string only")
+    
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-e", "--encrypt", dest="plaintext", help="encrypt plaintext")
+    group.add_argument("-d", "--decrypt", dest="secret", help="decrypt secret")
 
-    (options, args) = parser.parse_args()
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(1)
+    args = parser.parse_args()
 
-    # right number of arguments?
-    if len(args) < 1:
-        parser.error("wrong number of arguments")
+    if not args.resultOnly:
+        print("Junos $9$ secrets en/decrypter")
+        print("python version by matt hite/min song")
+        print("original perl version by kevin brintnall\n")
+        
+    if args.secret:
+        encrypted_string = args.secret
 
-    encrypted_string = args[0]
-    print("junos password decrypter")
-    print("python version by matt hite")
-    print("original perl version by kevin brintnall\n")
-    print("encrypted version: %s" % encrypted_string)
-    print("decrypted version: %s" % juniper_decrypt(encrypted_string))
+        if args.resultOnly:
+            print(juniper_decrypt(encrypted_string), end='')
+        else:
+            print("encrypted version: %s" % encrypted_string)
+            print("decrypted version: %s" % juniper_decrypt(encrypted_string))
+    elif args.plaintext:
+        plaintext_string = args.plaintext
+
+        if args.resultOnly:
+            print(juniper_encrypt(plaintext_string), end='')
+        else:
+            print("plaintext version: %s" % plaintext_string)
+            print("encrypted version: %s" % juniper_encrypt(plaintext_string))
 
 if __name__ == "__main__":
     main()
+	

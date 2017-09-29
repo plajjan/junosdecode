@@ -1,9 +1,0 @@
-Example usage (note enclosing password in SINGLE quotes!):
-
-$ python junosdecode.py '$9$jBkm5n/tIEyCAeWLxVb.P5'
-junos password decrypter
-python version by matt hite
-original perl version by kevin brintnall
-
-encrypted version: $9$jBkm5n/tIEyCAeWLxVb.P5
-decrypted version: Jun1pEr
