@@ -66,7 +66,7 @@ def decrypt(encrypted):
     :param encrypted: the encrypted value
     :returns decrypted: returns the decrypted value
     """
-    chars = encrypted.split("$9$", 1)[1]
+    chars = encrypted.replace("$9$", '')
     first, chars = _nibble(chars, 1)
     _, chars = _nibble(chars, EXTRA[first])
     prev = first
@@ -113,7 +113,7 @@ def encrypt(plaintext, salt=None):
     """Encrypts a plaintext value into a JUNOS $9 encrypted value
 
     :param plaintext: the plaintext value
-    :param salt: an optional salt, one is generated if one isn't provided
+    :param salt: an optional single character salt, one is generated if one isn't provided
     :returns encrypted: returns the encrypted value
     """
     if salt is None:
@@ -148,6 +148,12 @@ class TestJunosdecode(unittest.TestCase):
             self.assertEqual(encrypted, exp_enc)
             decrypted = decrypt(encrypted)
             self.assertEqual(decrypted, plain)
+
+    def test_no_prefix(self):
+        """Test that we can decrypt values without the magic $9$ prefix
+        """
+        decrypted = decrypt('TzF/tu1cSeQF')
+        self.assertEqual(decrypted, 'asdf')
 
 
 def main():
