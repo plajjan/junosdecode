@@ -120,9 +120,10 @@ def juniper_encrypt(plaintext, salt=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
-    parser.add_argument('-v','--version', action='version', version='%(prog)s 1.01')
-    parser.add_argument("-r","--result-only", action="store_true", dest="resultOnly", help="Output resulting string only")
-    
+    parser.add_argument("-v", "--version", action="version", version="%(prog)s 1.01")
+    parser.add_argument("-r", "--result-only", action="store_true",
+                        dest="resultOnly", help="Output resulting string only")
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-e", "--encrypt", dest="plaintext", help="encrypt plaintext")
     group.add_argument("-d", "--decrypt", dest="secret", help="decrypt secret")
@@ -136,7 +137,7 @@ def main():
         print("Junos $9$ secrets en/decrypter")
         print("python version by matt hite/min song")
         print("original perl version by kevin brintnall\n")
-        
+
     if args.secret:
         encrypted_string = args.secret
 
@@ -156,4 +157,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-	
