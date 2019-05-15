@@ -124,7 +124,8 @@ def juniper_encrypt(plaintext, salt=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
-    parser.add_argument("-v", "--version", action="version", version="%(prog)s 1.01")
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s {version}'.format(version=__version__))
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-e", "--encrypt", dest="plaintext", help="encrypt plaintext")
