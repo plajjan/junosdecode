@@ -12,13 +12,9 @@ import random
 
 
 
-#################################################################
-## globals
-
+# globals
 MAGIC = "$9$"
 
-###################################
-## letter families
 
 FAMILY = ["QzF3n6/9CAtpu0O", "B1IREhcSyrleKvMW8LXx", "7N-dVbwsY2g4oaJZGUDj", "iHkq.mPf5T"]
 EXTRA = dict()
@@ -26,15 +22,11 @@ for x, item in enumerate(FAMILY):
     for c in item:
         EXTRA[c] = 3 - x
 
-###################################
 ## forward and reverse dictionaries
-
 NUM_ALPHA = [x for x in "".join(FAMILY)]
 ALPHA_NUM = {NUM_ALPHA[x]: x for x in range(0, len(NUM_ALPHA))}
 
-###################################
 ## encoding moduli by position
-
 ENCODING = [[1, 4, 32], [1, 16, 32], [1, 8, 32], [1, 64], [1, 32], [1, 4, 16, 128], [1, 32, 64]]
 
 
