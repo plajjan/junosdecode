@@ -8,6 +8,7 @@ from __future__ import print_function
 
 import argparse
 import random
+import unittest
 
 __author__ = 'Matt Hite, Minsuk Song, Kristian Larsson'
 __credits__ = ['Matt Hite, Minsuk Song', 'Minsuk Song, Kristian Larsson']
@@ -130,6 +131,23 @@ def encrypt(plaintext, salt=None):
         pos += 1
 
     return crypt
+
+class TestJunosdecode(unittest.TestCase):
+    """Test encryption and decryption
+    """
+    test_pairs = [
+        ('asdf', '$9$TzF/tu1cSeQF'),
+        ('12345678900987654321', '$9$Tz/Cp0BESru07-bs4o/CAtIEM8Xx-VyrZUDHmPhSyeLxbs2JUjwsP5Qz6/'),
+    ]
+    def test_basic(self):
+        """Basic test of functionality
+        """
+        for plain, exp_enc in self.test_pairs:
+            salt = exp_enc[3:4]
+            encrypted = encrypt(plain, salt)
+            self.assertEqual(encrypted, exp_enc)
+            decrypted = decrypt(encrypted)
+            self.assertEqual(decrypted, plain)
 
 
 def main():
