@@ -59,7 +59,7 @@ def _gap_decode(gaps, dec):
     return chr(num % 256)
 
 
-def juniper_decrypt(encrypted):
+def decrypt(encrypted):
     """Decrypt a JUNOS $9 encrypted value
 
     :param encrypted: the encrypted value
@@ -69,17 +69,17 @@ def juniper_decrypt(encrypted):
     first, chars = _nibble(chars, 1)
     _, chars = _nibble(chars, EXTRA[first])
     prev = first
-    decrypt = ""
+    decrypted = ""
     while chars:
-        decode = ENCODING[len(decrypt) % len(ENCODING)]
+        decode = ENCODING[len(decrypted) % len(ENCODING)]
         nibble, chars = _nibble(chars, len(decode))
         gaps = []
         for i in nibble:
             g = _gap(prev, i)
             prev = i
             gaps += [g]
-        decrypt += _gap_decode(gaps, decode)
-    return decrypt
+        decrypted += _gap_decode(gaps, decode)
+    return decrypted
 
 def _reverse(my_list):
     new_list = list(my_list)
@@ -108,7 +108,7 @@ def _randc(cnt=0):
         ret += NUM_ALPHA[random.randrange(len(NUM_ALPHA))]
     return ret
 
-def juniper_encrypt(plaintext, salt=None):
+def encrypt(plaintext, salt=None):
     """Encrypts a plaintext value into a JUNOS $9 encrypted value
 
     :param plaintext: the plaintext value
@@ -146,9 +146,9 @@ def main():
     args = parser.parse_args()
 
     if args.secret:
-        print(juniper_decrypt(args.secret))
+        print(decrypt(args.secret))
     elif args.plaintext:
-        print(juniper_encrypt(args.plaintext))
+        print(encrypt(args.plaintext))
 
 if __name__ == "__main__":
     main()
