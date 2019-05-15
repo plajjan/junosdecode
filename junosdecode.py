@@ -122,7 +122,7 @@ def main():
     parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
     parser.add_argument("-v", "--version", action="version", version="%(prog)s 1.01")
     parser.add_argument("-r", "--result-only", action="store_true",
-                        dest="resultOnly", help="Output resulting string only")
+                        help="Output resulting string only")
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-e", "--encrypt", dest="plaintext", help="encrypt plaintext")
@@ -133,7 +133,7 @@ def main():
         sys.exit(1)
     args = parser.parse_args()
 
-    if not args.resultOnly:
+    if not args.result_only:
         print("Junos $9$ secrets en/decrypter")
         print("python version by matt hite/min song")
         print("original perl version by kevin brintnall\n")
@@ -141,7 +141,7 @@ def main():
     if args.secret:
         encrypted_string = args.secret
 
-        if args.resultOnly:
+        if args.result_only:
             print(juniper_decrypt(encrypted_string), end='')
         else:
             print("encrypted version: %s" % encrypted_string)
@@ -149,7 +149,7 @@ def main():
     elif args.plaintext:
         plaintext_string = args.plaintext
 
-        if args.resultOnly:
+        if args.result_only:
             print(juniper_encrypt(plaintext_string), end='')
         else:
             print("plaintext version: %s" % plaintext_string)
