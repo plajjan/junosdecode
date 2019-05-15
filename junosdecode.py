@@ -10,6 +10,12 @@ import sys
 import argparse
 import random
 
+__author__ = 'Matt Hite, Minsuk Song, Kristian Larsson'
+__credits__ = ['Matt Hite, Minsuk Song', 'Minsuk Song, Kristian Larsson']
+__version__ = '1.0.1'
+__maintainer__ = 'Kristian Larsson'
+__email__ = 'kristian@spritelink.net'
+__status__ = 'Development'
 
 
 # globals
