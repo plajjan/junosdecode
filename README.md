@@ -29,3 +29,9 @@ $9$lateMXVb2JGi7-Dk
 $ python junosdecode.py -d '$9$lateMXVb2JGi7-Dk'
 decrypted version: hello
 ```
+
+
+## Contributors
+* Matt Hine, who originally ported this from Perl
+* Minsuk Song, who added encryption functionality (in addition to the existing decryption functionality)
+* Kristian Larsson, who cleaned it up a bit, added tests etc
