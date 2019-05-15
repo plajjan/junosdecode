@@ -125,39 +125,17 @@ def juniper_encrypt(plaintext, salt=None):
 def main():
     parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
     parser.add_argument("-v", "--version", action="version", version="%(prog)s 1.01")
-    parser.add_argument("-r", "--result-only", action="store_true",
-                        help="Output resulting string only")
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-e", "--encrypt", dest="plaintext", help="encrypt plaintext")
     group.add_argument("-d", "--decrypt", dest="secret", help="decrypt secret")
 
-    if len(sys.argv) == 1:
-        parser.print_help()
-        sys.exit(1)
     args = parser.parse_args()
 
-    if not args.result_only:
-        print("Junos $9$ secrets en/decrypter")
-        print("python version by matt hite/min song")
-        print("original perl version by kevin brintnall\n")
-
     if args.secret:
-        encrypted_string = args.secret
-
-        if args.result_only:
-            print(juniper_decrypt(encrypted_string), end='')
-        else:
-            print("encrypted version: %s" % encrypted_string)
-            print("decrypted version: %s" % juniper_decrypt(encrypted_string))
+        print(juniper_decrypt(args.secret))
     elif args.plaintext:
-        plaintext_string = args.plaintext
-
-        if args.result_only:
-            print(juniper_encrypt(plaintext_string), end='')
-        else:
-            print("plaintext version: %s" % plaintext_string)
-            print("encrypted version: %s" % juniper_encrypt(plaintext_string))
+        print(juniper_encrypt(args.plaintext))
 
 if __name__ == "__main__":
     main()
