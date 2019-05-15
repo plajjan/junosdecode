@@ -37,8 +37,7 @@ def _nibble(cref, length):
     nib = cref[0:length]
     rest = cref[length:]
     if len(nib) != length:
-        print("Ran out of characters: hit '%s', expecting %s chars" % (nib, length))
-        sys.exit(1)
+        raise ValueError("Ran out of characters: hit '%s', expecting %s chars" % (nib, length))
     return nib, rest
 
 
@@ -49,8 +48,7 @@ def _gap(c1, c2):
 def _gap_decode(gaps, dec):
     num = 0
     if len(gaps) != len(dec):
-        print("Nibble and decode size not the same!")
-        sys.exit(1)
+        raise ValueError("Nibble and decode size not the same!")
     for x in range(0, len(gaps)):
         num += gaps[x] * dec[x]
     return chr(num % 256)
