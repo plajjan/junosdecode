@@ -155,6 +155,24 @@ class TestJunosdecode(unittest.TestCase):
         decrypted = decrypt('TzF/tu1cSeQF')
         self.assertEqual(decrypted, 'asdf')
 
+    def test_salt_randomness(self):
+        """Test that the randomness of the salt is okay
+        This is rather naive. We run the encryption method twenty times and
+        expect at least 15 unique results, which should give some indication
+        that we have random salts.
+        """
+        output = []
+        for i in range(20):
+            encrypted = encrypt('asdf')
+            output.append(encrypted)
+
+        unique = 0
+        for val in output:
+            if output.count(val) == 1:
+                unique += 1
+        self.assertGreater(unique, 15)
+
+
 
 def main():
     """Main function
