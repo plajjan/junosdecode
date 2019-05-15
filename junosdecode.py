@@ -1,22 +1,9 @@
 #!/usr/bin/python
+"""JUNOS $9$ secrets encryption and decryption library
 
-#############################################################################
-## this lovely script was painfully ported
-## by matt hite (mhite@hotmail.com), who knows
-## very little perl
-##
-## original: http://search.cpan.org/dist/Crypt-Juniper/lib/Crypt/Juniper.pm
-## requires python 2.7 due to use of dict comprehension
-##
-## version 1.01 - works with python 3
-##   
-##
-
-#############################################################################
-## added juniper_encrypt and the necessary functions
-## by Minsuk Song <msuk.song@gmail.com>, who also knows
-## very little perl
-##
+This lovely script was originally ported by matt hite (mhite@hotmail.com) from:
+http://search.cpan.org/dist/Crypt-Juniper/lib/Crypt/Juniper.pm
+"""
 from __future__ import print_function
 
 import sys
