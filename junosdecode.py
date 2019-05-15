@@ -60,10 +60,15 @@ def _gap_decode(gaps, dec):
     return chr(num % 256)
 
 
-def juniper_decrypt(crypt):
-    chars = crypt.split("$9$", 1)[1]
+def juniper_decrypt(encrypted):
+    """Decrypt a JUNOS $9 encrypted value
+
+    :param encrypted: the encrypted value
+    :returns decrypted: returns the decrypted value
+    """
+    chars = encrypted.split("$9$", 1)[1]
     first, chars = _nibble(chars, 1)
-    toss, chars = _nibble(chars, EXTRA[first])
+    _, chars = _nibble(chars, EXTRA[first])
     prev = first
     decrypt = ""
     while chars:
@@ -105,6 +110,12 @@ def _randc(cnt=0):
     return ret
 
 def juniper_encrypt(plaintext, salt=None):
+    """Encrypts a plaintext value into a JUNOS $9 encrypted value
+
+    :param plaintext: the plaintext value
+    :param salt: an optional salt, one is generated if one isn't provided
+    :returns encrypted: returns the encrypted value
+    """
     if salt is None:
         salt = _randc(1)
     rand = _randc(EXTRA[salt])
@@ -123,6 +134,8 @@ def juniper_encrypt(plaintext, salt=None):
 
 
 def main():
+    """Main function
+    """
     parser = argparse.ArgumentParser(description="Junos $9$ password en/decrypt script")
     parser.add_argument('--version', action='version',
                         version='%(prog)s {version}'.format(version=__version__))
