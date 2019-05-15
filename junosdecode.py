@@ -94,13 +94,13 @@ def _gap_encode(pc, prev, encode):
 
     return crypt
 
-def _randc(cnt = 0):
+def _randc(cnt=0):
     ret = ""
     for _ in range(cnt):
         ret += NUM_ALPHA[random.randrange(len(NUM_ALPHA))]
     return ret
 
-def juniper_encrypt(plaintext, salt = None):
+def juniper_encrypt(plaintext, salt=None):
     if salt is None:
         salt = _randc(1)
     rand = _randc(EXTRA[salt])
