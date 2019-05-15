@@ -6,7 +6,6 @@ http://search.cpan.org/dist/Crypt-Juniper/lib/Crypt/Juniper.pm
 """
 from __future__ import print_function
 
-import sys
 import argparse
 import random
 
