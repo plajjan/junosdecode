@@ -14,13 +14,16 @@ import random
 
 # globals
 MAGIC = "$9$"
-
-
 FAMILY = ["QzF3n6/9CAtpu0O", "B1IREhcSyrleKvMW8LXx", "7N-dVbwsY2g4oaJZGUDj", "iHkq.mPf5T"]
-EXTRA = dict()
-for x, item in enumerate(FAMILY):
-    for c in item:
-        EXTRA[c] = 3 - x
+
+def _compute_extra(family):
+    extra = dict()
+    for x, item in enumerate(family):
+        for c in item:
+            extra[c] = 3 - x
+    return extra
+
+EXTRA = _compute_extra(FAMILY)
 
 ## forward and reverse dictionaries
 NUM_ALPHA = [x for x in "".join(FAMILY)]
